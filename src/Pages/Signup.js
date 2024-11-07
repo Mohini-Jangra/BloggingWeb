@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Firebase,{auth} from '../Firebase'
 const Signup = () => {
   const[Obj,SetObj]= useState({})
+const [btn,disbtn]= useState(false)
   const d= new Date()
   const date= `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`
   function NameChange(event){
@@ -19,26 +20,31 @@ const Signup = () => {
 async function save(e){
 try {
   e.preventDefault()
+  disbtn(true)
 if(!Obj.Name || !Obj.Email || !Obj.Password ||!Obj.ConfirmPassword ) return alert("Field is Empty")
   const response= EmailCheck(Obj.Email)
 if(!response) return alert("Email is not valid")
   if(Obj.Password!==Obj.ConfirmPassword) return alert("Password not matched")
-const result= await auth.createUserWithEmailAndPassword(Obj.Email, Obj.Password)
-let object={
+
+const object={
   Name: Obj.Name,
   Email: Obj.Email
 }
-if(!object) return alert ("Field is Empty")
+    const result= await auth.createUserWithEmailAndPassword(Obj.Email, Obj.Password)
+SetObj({})
   Firebase.child("Users").child(result.user.uid).set(object,err=>{
 if(err) return alert("Something went wrong.")
   else{
-SetObj({})
 alert("Account created successfully")
 }
 })
 
 } catch (error) {
   return alert("This Email is already exist.")
+  console.log(error)
+}
+finally{
+  disbtn(false)
 }
 
 }
@@ -67,15 +73,15 @@ alert("Account created successfully")
           <input type="text" value={Obj.Name?Obj.Name:""} onChange={NameChange}  placeholder="Full Name" />
         </div>
         <div className="form-group">
-          <input type="email" onChange={set} name='Email' placeholder="Email Address" />
+          <input type="email" onChange={set} value={Obj.Email?Obj.Email:""} name='Email' placeholder="Email Address" />
         </div>
         <div className="form-group">
-          <input type="password" onChange={set} name='Password' placeholder="Password" />
+          <input type="password" onChange={set} value={Obj.Password?Obj.Password:""} name='Password' placeholder="Password" />
         </div>
         <div className="form-group">
-          <input type="password" onChange={set} name='ConfirmPassword' placeholder="Confirm Password" />
+          <input type="password" onChange={set} value={Obj.ConfirmPassword?Obj.ConfirmPassword:""} name='ConfirmPassword' placeholder="Confirm Password" />
         </div>
-        <button type="submit" className="btn-two w-100 d-block" onClick={save}> Create Account</button>
+        <button type="submit" disabled={btn} className="btn-two w-100 d-block" onClick={save}> Create Account</button>
         <p className="login-text">Already have an account?<a href="login.html">Login</a></p>
       </form>
     </div>

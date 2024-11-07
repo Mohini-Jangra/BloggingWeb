@@ -1,7 +1,41 @@
+import { useState} from 'react'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { auth } from '../Firebase'
 
 const Login = () => {
+    const[Obj,SetObj]= useState({})
+const [btn,disbtn]= useState(false)
+const navigate= useNavigate()
+  function set(event){
+    SetObj({...Obj,[event.target.name]:event.target.value})
+  }
+  function EmailCheck(email){
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email)
+}
+async function save(e){
+try {
+  e.preventDefault()
+  disbtn(true)
+if( !Obj.Email || !Obj.Password ) return alert("Field is Empty")
+  const response= EmailCheck(Obj.Email)
+if(!response) return alert("Email is not valid")
+  
+    const result= await auth.signInWithEmailAndPassword(Obj.Email, Obj.Password)
+localStorage.setItem("Users",JSON.stringify(result.user.uid))
+    SetObj({})
+navigate("/Blogs")
+
+} catch (error) {
+  return alert("Please Re-check your Email & Password")
+  console.log(error)
+}
+finally{
+  disbtn(false)
+}
+
+}
     return (
         <div className="login-wrap">
                 <div className="login-bg">
@@ -23,13 +57,12 @@ const Login = () => {
                         </div>
                         <form action="#">
                             <div className="form-group">
-                                <input type="text" placeholder="Full Name" />
+                             </div>
+                            <div className="form-group">
+                                <input type="email" onChange={set} name='Email' value={Obj.Email?Obj.Email:""} placeholder="Email Address" />
                             </div>
                             <div className="form-group">
-                                <input type="email" placeholder="Email Address" />
-                            </div>
-                            <div className="form-group">
-                                <input type="number" placeholder="Password" />
+                                <input type="password" onChange={set} name='Password' value={Obj.Password?Obj.Password:""} placeholder="Password" />
                             </div>
                             <div className="row">
                                 <div className="col-6">
@@ -41,10 +74,10 @@ const Login = () => {
                                     </div>
                                 </div>
                                 <div className="col-6 text-end">
-                                    <a href="login.html">Forgot Password</a>
+                                    <a href="#">Forgot Password</a>
                                 </div>
                             </div>
-                            <button type="submit" className="btn-two w-100 d-block">Login</button>
+                            <button type="submit" onClick={save} disabled={btn} className="btn-two w-100 d-block">Login</button>
                             <p className="login-text">Don't have an account?<a href="signup.html">Sign Up</a></p>
                         </form>
                     </div>
