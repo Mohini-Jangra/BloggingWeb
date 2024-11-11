@@ -1,6 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const AddBlogComp = () => {
+const [obj,setobj]= useState({})
+const[input,setinput]=useState([])
+function set(event){
+setobj({...obj,[event.target.name]:event.target.value})
+}
+ const Create=()=>{
+setinput(input=>[...input,{id:input.length+1}])
+}
+const radio=(event)=>{
+    setobj({...obj,"Status":event.target.id})
+}
+const set1=(event,Obj,index)=>{
+const result= {...Obj,[event.target.name]:event.target.value}
+input.splice(index,1,result)
+setinput([...input])
+}
+console.log(input)
     return (
         <div>
             <div className="checkout-wrap ptb-100">
@@ -14,54 +31,66 @@ const AddBlogComp = () => {
                                     </div>
                                     <div className="col-lg-6">
                                         <div className="form-group">
-                                            <input type="text" name="Title" placeholder="Title" required />
+                                            <input type="text" onChange={set} name="Title" placeholder="Title" required />
                                         </div>
                                     </div>
                                     <div className="col-lg-6">
                                         <div className="form-group">
-                                            <input type="text" name="Author"  placeholder="Author" required />
+                                            <input type="text" name="Author" onChange={set} placeholder="Author" required />
                                         </div>
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="form-group">
-                                            <input type="email" name="Heading" placeholder="Heading" required />
+                                            <input type="email" name="Heading" onChange={set} placeholder="Heading" required />
                                         </div>
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="form-group">
-                                            <textarea name='Description' placeholder='Description'></textarea>
+                                            <textarea name='Description' onChange={set} placeholder='Description'></textarea>
                                              </div>
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="form-group">
-                                            <input type="text" name="company_name" id="company_name" placeholder="Company Name" />
+                                            <input type="text" name="Category" onChange={set} placeholder="Category" />
                                         </div>
                                     </div>
-                                    <button>Create Sub-Heading</button>
-                                    <div className="col-lg-6">
-                                        <div className="form-group">
-                                    <input type='text' name='Sub-Heading' placeholder='Sub-Heading'/>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-6">
-                                        <div className="form-group">
-                                            <input type="text" name="Sub-Heading Description"  placeholder="Sub-Heading Description" />
-                                        </div>
-                                    </div>
+                                    <a className="btn-two w-100 d-block">Upload Heading Image<i className="flaticon-right-arrow" /></a>
+                                    
                                     <div className="col-lg-12">
                                         <div className="form-group">
-                                            <input type="text" name="zip" id="zip" placeholder="ZIP Code" required />
+                                            <input name='Tags' onChange={set} placeholder='Tags'></input>
+                                             </div>
+                                    </div>
+                                    <button className="btn-two w-100 d-block" onClick={Create}>Create Sub-Heading<i className="flaticon-right-arrow" /></button>
+                                    {
+                                        input.map(function(input,index){
+                                            return(
+                                                <div className='row' key={index}>
+                                                    <div className="col-lg-6">
+                                        <div className="form-group">
+                                    <input type='text' name='Sub_Heading' onChange={(e)=>set1(e,input,index)} placeholder={`Enter the Sub Heading-${input.id}`}/>
                                         </div>
                                     </div>
+                                    <div className="col-lg-6">
+                                        <div className="form-group">
+                                        <input type='text' name='Sub_Heading_Description' onChange={(e)=>set1(e,input,index)} placeholder={`Enter the Sub Heading Description-${input.id}`}/>
+                                        </div>
+                                    </div>
+                                                </div>
+                                            )
+
+                                        })
+                                    }
+                                    
                                     <div className="col-lg-12">
                                         <div className="d-flex align-items-center">
                                             <div className="checkbox style-two form-group me-5">
-                                                <input type="checkbox" id="test_3" />
-                                                <label htmlFor="test_3">Create An Account</label>
+                                                <input type="radio" id="Active" onClick={radio} name='Status' />
+                                                <label htmlFor="Active">Active</label>
                                             </div>
                                             <div className="checkbox style-two form-group">
-                                                <input type="checkbox" id="test_3" />
-                                                <label htmlFor="test_3">Ship To A Different Address?</label>
+                                                <input type="radio" onClick={radio} name='Status' id="In-Active" />
+                                                <label htmlFor="In-Active">In-Active</label>
                                             </div>
                                         </div>
                                     </div>
