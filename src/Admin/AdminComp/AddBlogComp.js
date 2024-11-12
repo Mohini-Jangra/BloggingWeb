@@ -1,8 +1,14 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 const AddBlogComp = () => {
 const [obj,setobj]= useState({})
 const[input,setinput]=useState([])
+const [headimg,setheadimg]= useState(null)
+const img= useRef()
+const moreimg= useRef()
+const[image,setimage]= useState(null)
+const[error,seterror]=useState(null)
+
 function set(event){
 setobj({...obj,[event.target.name]:event.target.value})
 }
@@ -17,7 +23,44 @@ const result= {...Obj,[event.target.name]:event.target.value}
 input.splice(index,1,result)
 setinput([...input])
 }
-console.log(input)
+// console.log(input)
+const upload=(event)=>{
+const file= event.target.files[0]
+
+if(!file) return alert("No Iimage is selected")
+    const ext= file.type.split("/")
+if(ext[0]!=="image") return alert("Only Images can be uploaded")
+    if(ext[1]=="png" ||ext[1]=="jpg" ||ext[1]=="jpeg" ||ext[1]=="PNG" ||ext[1]=="jfif") 
+        {
+            return setheadimg(file)
+        }
+        return alert("Only png,jpg,jpeg & jfif file types are supported")
+}
+const uploads=(event)=>{
+    const file= event.target.files[0]
+    
+    if(!file) return alert("No Iimage is selected")
+      let status= image
+    let count=0
+    for(let i=0; i<file.length;i++){
+        const ext=file[1].type.split("/")
+        if(ext[0]!=="image"){
+            count++
+        }
+        else{
+            if(ext[1]=="png" ||ext[1]=="jpg" ||ext[1]=="jpeg" ||ext[1]=="PNG" ||ext[1]=="jfif") 
+         {
+            status.push(file[1])
+         }         
+         else{
+            count++
+         }
+        }
+    }
+    setimage([...status])
+    seterror(count)
+    }
+    console.log(image,error)
     return (
         <div>
             <div className="checkout-wrap ptb-100">
@@ -54,14 +97,27 @@ console.log(input)
                                             <input type="text" name="Category" onChange={set} placeholder="Category" />
                                         </div>
                                     </div>
-                                    <a className="btn-two w-100 d-block">Upload Heading Image<i className="flaticon-right-arrow" /></a>
-                                    
+                                    <div>
+                                        <span style={{fontSize:"20px"}}>Status:</span>
+                                    </div>
+                                    <div className="col-lg-12">
+                                        <div className="d-flex align-items-center">
+                                                                                        
+                                            <div className="checkbox style-two form-group me-5">
+                                                <input type="radio" id="Active" onClick={radio} name='Status' />
+                                                <label htmlFor="Active">Active</label>
+                                            </div>
+                                            <div className="checkbox style-two form-group">
+                                                <input type="radio" onClick={radio} name='Status' id="In-Active" />
+                                                <label htmlFor="In-Active">In-Active</label>
+                                            </div>
+                                        </div>
                                     <div className="col-lg-12">
                                         <div className="form-group">
                                             <input name='Tags' onChange={set} placeholder='Tags'></input>
                                              </div>
                                     </div>
-                                    <button className="btn-two w-100 d-block" onClick={Create}>Create Sub-Heading<i className="flaticon-right-arrow" /></button>
+                                    <button className="btn-two w-100 d-block" style={{height:"48px", padding:"9px"}} onClick={Create}>Create Sub-Heading<i className="flaticon-right-arrow" /></button>
                                     {
                                         input.map(function(input,index){
                                             return(
@@ -82,28 +138,6 @@ console.log(input)
                                         })
                                     }
                                     
-                                    <div className="col-lg-12">
-                                        <div className="d-flex align-items-center">
-                                            <div className="checkbox style-two form-group me-5">
-                                                <input type="radio" id="Active" onClick={radio} name='Status' />
-                                                <label htmlFor="Active">Active</label>
-                                            </div>
-                                            <div className="checkbox style-two form-group">
-                                                <input type="radio" onClick={radio} name='Status' id="In-Active" />
-                                                <label htmlFor="In-Active">In-Active</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-12">
-                                        <div className="form-group">
-                                            <textarea name="msg" id="msg" cols={30} rows={10} placeholder="Order Note" defaultValue={""} />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-12">
-                                        <div className="checkbox style2">
-                                            <input type="checkbox" id="test_10" />
-                                            <label htmlFor="test_10">I have read And Accept the <a className="link style1" href="terms-conditions.html"> Terms &amp; Conditions</a></label>
-                                        </div>
                                     </div>
                                     <div className="col-lg-12 mt-4">
                                         <div className="form-group mb-0">
@@ -116,64 +150,28 @@ console.log(input)
                         <div className="col-xxl-4 col-xl-5 col-lg-5">
                             <div className="sidebar">
                                 <div className="checkout-box">
-                                    <h4 className="cart-box-title">Your Order</h4>
+                                    <h4 className="cart-box-title">Heading Image</h4>
                                     <div className="cart-total">
                                         <div className="cart-total-wrap">
                                             <div className="cart-total-item">
-                                                <p>Product Name</p>
-                                                <b>Total</b>
-                                            </div>
-                                            <div className="cart-total-item">
-                                                <p>Subtotal</p>
-                                                <span>$463.00</span>
-                                            </div>
-                                            <div className="cart-total-item">
-                                                <p>Shipping</p>
-                                                <span>$30.00</span>
-                                            </div>
-                                            <div className="cart-total-item">
-                                                <p>Coupon</p>
-                                                <span>$0.00</span>
-                                            </div>
-                                            <div className="cart-total-item">
-                                                <p>Order Total</p>
-                                                <span>$43.00</span>
-                                            </div>
-                                            <div className="cart-total-item">
-                                                <p><b>Payable Total</b></p>
-                                                <span>$450.00</span>
+                                               <img className='img-thumbnail' height={"100%"} width={"100%"} src={headimg?URL.createObjectURL(headimg):'assets/img/newsletter-bg.webp'}/>
                                             </div>
                                         </div>
-                                        <a href="checkout.html" className="btn-two w-100 d-block">Proceed To Checkout<i className="flaticon-right-arrow" /></a>
-                                    </div>
+                                        <input type='file' hidden onChange={upload} ref={img} accept='image/*'/>
+                                        <a onClick={()=>img.current.click()} className="btn-two w-100 d-block">Upload Heading Image<i className="flaticon-right-arrow" /></a>
+                                      </div>
                                 </div>
                                 <div className="checkout-box">
-                                    <h4 className="cart-box-title">Direct Order By Bank</h4>
+                                    <h4 className="cart-box-title">Upload More Images</h4>
                                     <div className="checkout-details">
-                                        <p>Make your payments directly to your bank account
-                                            Use your order ID as the payment reference.
-                                            Your order will not be sent until the funds
-                                            in your account have been cleared.</p>
-                                        <div className="bill-details">
-                                            <div className="select-payment-method mt-20">
-                                                <div>
-                                                    <input type="radio" id="test3" name="radio-group" />
-                                                    <label htmlFor="test3">Paypal</label>
-                                                </div>
-                                                <div>
-                                                    <input type="radio" id="test2" name="radio-group" />
-                                                    <label htmlFor="test2">Postpaid Payment</label>
-                                                </div>
-                                            </div>
-                                            <div className="form-check checkbox style2">
-                                                <input className="form-check-input" type="checkbox" id="test_2" />
-                                                <label className="form-check-label" htmlFor="test_2">
-                                                    I've read &amp; accept the <a href="terms-conditions.html">Terms &amp;
-                                                        Conditions</a>
-                                                </label>
+                                        <div className='myimages'>
+                                      <img src='assets/img/newsletter-bg.webp'/>
+                                      <i>&times</i>
+                                      </div>
                                             </div>
                                             <div className="checkout-footer mt-4">
-                                                <button type="button" className="btn-one d-block w-100 mt-10">Place Order<i className="flaticon-right-arrow" /></button>
+                                                <input accept='image/*' multiple={true} hidden ref={moreimg} type='file' onChange={uploads}/>
+                                                <button type="button" onClick={()=>moreimg.current.click()} className="btn-one d-block w-100 mt-10">Upload More Images<i className="flaticon-right-arrow" /></button>
                                             </div>
                                         </div>
                                     </div>
@@ -182,9 +180,6 @@ console.log(input)
                         </div>
                     </div>
                 </div>
-            </div>
-
-        </div>
     )
 }
 
