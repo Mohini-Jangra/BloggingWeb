@@ -6,7 +6,7 @@ const[input,setinput]=useState([])
 const [headimg,setheadimg]= useState(null)
 const img= useRef()
 const moreimg= useRef()
-const[image,setimage]= useState(null)
+const[image,setimage]= useState([])
 const[error,seterror]=useState(null)
 
 function set(event){
@@ -37,12 +37,18 @@ if(ext[0]!=="image") return alert("Only Images can be uploaded")
         return alert("Only png,jpg,jpeg & jfif file types are supported")
 }
 const uploads=(event)=>{
-    const file= event.target.files[0]
-    
+    const file= event.target.files
     if(!file) return alert("No Iimage is selected")
+        if(file.length>10) return alert("Only 10 images can be uploaded")
+
       let status= image
     let count=0
     for(let i=0; i<file.length;i++){
+        if(status.length>9) {
+            alert("Only 10 images can be uploaded")
+            break;
+        }
+
         const ext=file[1].type.split("/")
         if(ext[0]!=="image"){
             count++
@@ -50,7 +56,7 @@ const uploads=(event)=>{
         else{
             if(ext[1]=="png" ||ext[1]=="jpg" ||ext[1]=="jpeg" ||ext[1]=="PNG" ||ext[1]=="jfif") 
          {
-            status.push(file[1])
+            status.push(file[i])
          }         
          else{
             count++
@@ -60,7 +66,15 @@ const uploads=(event)=>{
     setimage([...status])
     seterror(count)
     }
-    console.log(image,error)
+    // console.log(image,error)
+    const remove=(index)=>{
+image.splice(index,1)
+setimage([...image])
+    }
+const save=()=>{
+    if(!obj.Title ||!obj.Author ||!obj.Category ||!obj.Tags ||!obj.Description ||!obj.Heading ) return alert("Field is empty")
+        if(!obj.headimg) return alert("Upload Heading Image")
+}
     return (
         <div>
             <div className="checkout-wrap ptb-100">
@@ -141,7 +155,7 @@ const uploads=(event)=>{
                                     </div>
                                     <div className="col-lg-12 mt-4">
                                         <div className="form-group mb-0">
-                                            <button type="button" className="btn-one">Save Information<i className="flaticon-right-arrow" /></button>
+                                            <button type="button" onClick={save} className="btn-one">Save Information<i className="flaticon-right-arrow" /></button>
                                         </div>
                                     </div>
                                 </div>
@@ -164,10 +178,17 @@ const uploads=(event)=>{
                                 <div className="checkout-box">
                                     <h4 className="cart-box-title">Upload More Images</h4>
                                     <div className="checkout-details">
-                                        <div className='myimages'>
-                                      <img src='assets/img/newsletter-bg.webp'/>
-                                      <i>&times</i>
-                                      </div>
+                                        {
+                                            image.map(function(Obj,index){
+                                                return(
+                                                    <div key={index} className='myimages'>
+                                                    <img src={Obj?URL.createObjectURL(Obj):'assets/img/newsletter-bg.webp'}/>
+                                                    <i onClick={()=>remove(index)}>X</i>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+
                                             </div>
                                             <div className="checkout-footer mt-4">
                                                 <input accept='image/*' multiple={true} hidden ref={moreimg} type='file' onChange={uploads}/>
