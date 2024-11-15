@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import Firebase, { storage } from '../../Firebase'
+import {replace, useNavigate} from 'react-router-dom'
 
 const AddBlogComp = () => {
 const [obj,setobj]= useState({})
@@ -10,6 +11,9 @@ const moreimg= useRef()
 const[image,setimage]= useState([])
 const[error,seterror]=useState(null)
 const[btndis,setbtndis]= useState(false)
+const[loader,setloader]= useState(false)
+const navigate= useNavigate()
+
 function set(event){
 setobj({...obj,[event.target.name]:event.target.value})
 }
@@ -76,6 +80,7 @@ async function save(e)
 { e.preventDefault()
     try{
     setbtndis(true)
+    setloader(true)
     if(!obj.Title ||!obj.Author ||!obj.Category ||!obj.Tags ||!obj.Description ||!obj.Heading ) return alert("Field is empty")
         if(!headimg) return alert("Upload Heading Image")
             let count=0
@@ -85,6 +90,15 @@ async function save(e)
             }
         }
         if(count>0) return alert("All Sub-Heading portions should be filled.Please recheck it.")
+
+                 const user= JSON.parse(localStorage.getItem("Users"))
+
+                 if(!user) {
+                    alert("Unauthorised user.")
+                    window.history.replaceState(null, null, "/Login")
+
+                    return navigate("/",{replace:true})
+                 } 
 
             const fileref= storage.child(headimg.name)
             await fileref.put(headimg)
@@ -105,10 +119,11 @@ async function save(e)
                 }
                 mydata={...mydata,"Sub_Heading":array}
             }
-            Firebase.child("Blogs").push(mydata,err=>{
+            Firebase.child("Blogs").child(user).push(mydata,err=>{
                 if(err) return alert("Somthing went wrong")
                     else return alert("Your Blog has been successfully uploaded")
             })
+            setTimeout(()=> navigate("/Blogs"),1500)
         }catch(err){
                 alert("Somthing went wrong")
                 console.log(err)
@@ -119,6 +134,7 @@ async function save(e)
                 setimage([])
                 setinput([])
                 setbtndis(false)
+                setloader(false)
             }
     }
 
@@ -126,6 +142,11 @@ async function save(e)
         <div>
             <div className="checkout-wrap ptb-100">
                 <div className="container">
+                    {
+                        loader && <div className='preloaders'>
+                            <div className='loaders'></div>
+                        </div>
+                    }
                     <div className="row">
                         <div className="col-xxl-8 col-xl-7 col-lg-7">
                             <form action="#" className="checkout-form">
@@ -165,11 +186,11 @@ async function save(e)
                                         <div className="d-flex align-items-center">
                                                                                         
                                             <div className="checkbox style-two form-group me-5">
-                                                <input type="radio" id="Active" onClick={radio} name='Status' />
+                                                <input checked={obj.Status==="Active"?true:false} type="radio" id="Active" onClick={radio} name='Status' />
                                                 <label htmlFor="Active">Active</label>
                                             </div>
                                             <div className="checkbox style-two form-group">
-                                                <input type="radio" onClick={radio} name='Status' id="In-Active" />
+                                                <input type="radio" onClick={radio} checked={obj.Status==="In-Active"?true:false} name='Status' id="In-Active" />
                                                 <label htmlFor="In-Active">In-Active</label>
                                             </div>
                                         </div>
