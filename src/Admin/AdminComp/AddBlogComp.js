@@ -123,7 +123,7 @@ async function save(e)
                 if(err) return alert("Somthing went wrong")
                     else return alert("Your Blog has been successfully uploaded")
             })
-            setTimeout(()=> navigate("/Blogs"),1500)
+            setTimeout(()=> navigate("/Admin"),1500)
         }catch(err){
                 alert("Somthing went wrong")
                 console.log(err)
@@ -156,27 +156,27 @@ async function save(e)
                                     </div>
                                     <div className="col-lg-6">
                                         <div className="form-group">
-                                            <input type="text" onChange={set} name="Title" placeholder="Title" required />
+                                            <input type="text" onChange={set} value={obj.Title?obj.Title:""} name="Title" placeholder="Title" required />
                                         </div>
                                     </div>
                                     <div className="col-lg-6">
                                         <div className="form-group">
-                                            <input type="text" name="Author" onChange={set} placeholder="Author" required />
+                                            <input type="text" name="Author" onChange={set} placeholder="Author" value={obj.Author?obj.Author:""} required />
                                         </div>
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="form-group">
-                                            <input type="email" name="Heading" onChange={set} placeholder="Heading" required />
+                                            <input type="email" name="Heading" value={obj.Heading?obj.Heading:""} onChange={set} placeholder="Heading" required />
                                         </div>
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="form-group">
-                                            <textarea name='Description' onChange={set} placeholder='Description'></textarea>
+                                            <textarea name='Description' value={obj.Description?obj.Description:""} onChange={set} placeholder='Description'></textarea>
                                              </div>
                                     </div>
                                     <div className="col-lg-12">
                                         <div className="form-group">
-                                            <input type="text" name="Category" onChange={set} placeholder="Category" />
+                                            <input type="text" name="Category" value={obj.Category?obj.Category:""} onChange={set} placeholder="Category" />
                                         </div>
                                     </div>
                                     <div>
@@ -196,7 +196,7 @@ async function save(e)
                                         </div>
                                     <div className="col-lg-12">
                                         <div className="form-group">
-                                            <input name='Tags' onChange={set} placeholder='Tags'></input>
+                                            <input name='Tags' onChange={set} value={obj.Tags?obj.Tags:""} placeholder='Tags'></input>
                                              </div>
                                     </div>
                                     <button className="btn-two w-100 d-block" style={{height:"48px", padding:"9px"}} onClick={Create}>Create Sub-Heading<i className="flaticon-right-arrow" /></button>
