@@ -25,7 +25,7 @@ if(!response) return alert("Email is not valid")
     const result= await auth.signInWithEmailAndPassword(Obj.Email, Obj.Password)
 localStorage.setItem("Users",JSON.stringify(result.user.uid))
     SetObj({})
-navigate("/Admin")
+navigate("/Blogs")
 
 } catch (error) {
   return alert("Please Re-check your Email & Password")

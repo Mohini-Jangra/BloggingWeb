@@ -33,13 +33,13 @@ return (
                             <div className="collapse navbar-collapse">
                                 <ul className="navbar-nav mx-auto">
                                     <li className="nav-item">
-                                        <Link to={'/Admin'} className="nav-link active">Our Blogs</Link>
+                                        <Link to={'/Blogs'} className="nav-link active">Our Blogs</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to={'/Admin/AddBlog'} className="nav-link">Add Blog</Link>
+                                        <Link to={'/AddBlog'} className="nav-link">Add Blog</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link to={'/Admin/MyAccount'} className="nav-link">My Account</Link>
+                                        <Link to={'/MyAccount'} className="nav-link">My Account</Link>
                                     </li>
                                     <li className="nav-item">
                                         <a onClick={logout} className="nav-link">
@@ -65,13 +65,13 @@ return (
                     <div className="offcanvas-body">
                         <div className="accordion" id="navbarAccordion">
                             <div className="accordion-item">
-                                <Link to={'/Admin'}><button className="accordion-button  active" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Our Blogs</button></Link>
+                                <Link to={'/Blogs'}><button className="accordion-button  active" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Our Blogs</button></Link>
                             </div>
                             <div className="accordion-item">
-                                <Link to={'/Admin/AddBlog'}><button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Add Blog</button></Link>
+                                <Link to={'/AddBlog'}><button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Add Blog</button></Link>
                             </div>
                             <div className="accordion-item">
-                                <Link to={'/Admin/MyAccount'}><button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">My Account</button></Link>
+                                <Link to={'/MyAccount'}><button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">My Account</button></Link>
                             </div>
                             <div className="accordion-item">
                                 <a onClick={logout} className="accordion-link">

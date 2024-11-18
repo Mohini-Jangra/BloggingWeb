@@ -14,8 +14,9 @@ const[btndis,setbtndis]= useState(false)
 const[loader,setloader]= useState(false)
 const navigate= useNavigate()
 
+
 function set(event){
-setobj({...obj,[event.target.name]:event.target.value})
+setobj({...obj,[event.target.name]:event.target.value,"Date":Date.now()})
 }
  const Create=()=>{
 setinput(input=>[...input,{id:input.length+1}])
@@ -97,7 +98,7 @@ async function save(e)
                     alert("Unauthorised user.")
                     window.history.replaceState(null, null, "/Login")
 
-                    return navigate("/",{replace:true})
+                    return navigate("/Blogs",{replace:true})
                  } 
 
             const fileref= storage.child(headimg.name)
@@ -186,11 +187,11 @@ async function save(e)
                                         <div className="d-flex align-items-center">
                                                                                         
                                             <div className="checkbox style-two form-group me-5">
-                                                <input checked={obj.Status==="Active"?true:false} type="radio" id="Active" onClick={radio} name='Status' />
+                                                <input readOnly={true} checked={obj.Status==="Active"?true:false} type="radio" id="Active" onClick={radio} name='Status' />
                                                 <label htmlFor="Active">Active</label>
                                             </div>
                                             <div className="checkbox style-two form-group">
-                                                <input type="radio" onClick={radio} checked={obj.Status==="In-Active"?true:false} name='Status' id="In-Active" />
+                                                <input type="radio" onClick={radio} readOnly={true} checked={obj.Status==="In-Active"?true:false} name='Status' id="In-Active" />
                                                 <label htmlFor="In-Active">In-Active</label>
                                             </div>
                                         </div>

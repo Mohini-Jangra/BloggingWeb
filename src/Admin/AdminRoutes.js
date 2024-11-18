@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { replace, Route, Routes, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 import AddBlog from './AdminPages/AddBlog'
 import BlogShow from './AdminPages/BlogShow'
@@ -33,12 +33,7 @@ return setdata(null)
      },[])
   return (
     <AdminBlogContext.Provider value={{"fetchblogs":data, "loader":loader}}>
-  <Routes>
-         <Route path='AddBlog' element={<AddBlog/>} />
-          <Route path='/' element={<BlogShow/>} />
-          <Route path='AdminBlogDetail' element={<AdminBlogDetail/>} />
-          <Route path='MyAccount' element={<MyAccount/>} />
-  </Routes>
+ <Outlet/>
   </AdminBlogContext.Provider>
   )
 }
