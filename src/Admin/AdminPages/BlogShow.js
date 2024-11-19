@@ -6,6 +6,7 @@ const BlogComponent= React.lazy(()=>import ('../AdminComp/BlogComponent'))
 
 const BlogShow = () => {
   const{fetchblogs,loader}=useContext(AdminBlogContext)
+  console.log(fetchblogs);
   return (
     <div>
       <AdminHeader/>

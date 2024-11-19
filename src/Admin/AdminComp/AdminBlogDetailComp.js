@@ -2,11 +2,13 @@ import React from 'react'
 
 const AdminBlogDetailComp = (props) => {
 
-    const GetDate=(date)=>{
-if(!date) return "-----"
+    console.log(props)
 
-const d= new Date(date)
-return (`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`)
+    const GetDate=(date)=>{
+        if(!date) return "-----"
+
+        const d= new Date(date)
+            return (`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`)
     }
   return (
     <div className="news-details-wrap ptb-100">
@@ -15,7 +17,7 @@ return (`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`)
                         <div className="col-lg-8">
                             <article>
                                 <div className="news-img">
-                                    <img loading='lazy' src={props?.data?.HeadingImage?.url} alt="Image" />
+                                    <img loading='lazy' src={props?.data?.Image?.url} alt="Image" />
                                     <a  className="news-cat">{props?.data?.Category}</a>
                                 </div>
                                 <ul className="news-metainfo list-style">
@@ -40,13 +42,14 @@ return (`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`)
                                     })
 
                                 }
+                               
                               {
-                                props?.data?.SubHeadingData?.map(function(obj,index){
-                                    <div className="news-para">
+                                props?.data?.Sub_Headings?.map(function(obj,index){
+                                 return(   <div className="news-para">
                                     <h5>{obj?.Sub_Heading}</h5>
-                                    <p>{obj?.Sub_Heading_Desription}</p>
+                                    <p>{obj?.Sub_Heading_Description}</p>
                                         </div>
-
+                                 )
                                 })
                               }
                                 </article>
@@ -309,7 +312,9 @@ return (`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`)
                         </div>
                     </div>
                 </div>
-    </div>
+                </div>
+
+
   )
 }
 

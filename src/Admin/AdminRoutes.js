@@ -23,17 +23,16 @@ window.history.replaceState(null,null,"/Login")
 return navigate("/",{replace:true})
     }
     Firebase.child("Blogs").child(users).on('value',function(snap){
-if(snap.val()) return setdata(snap.val())
-else{
-return setdata(null)
-}
+   if(snap.val()) return setdata(snap.val())
+    else return setdata(null)
     })
     setloader(false)
 
      },[])
+     console.log(data);
   return (
     <AdminBlogContext.Provider value={{"fetchblogs":data, "loader":loader}}>
- <Outlet/>
+    <Outlet/>
   </AdminBlogContext.Provider>
   )
 }

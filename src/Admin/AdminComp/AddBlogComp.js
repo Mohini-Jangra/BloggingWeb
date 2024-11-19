@@ -103,7 +103,7 @@ async function save(e)
 
             const fileref= storage.child(headimg.name)
             await fileref.put(headimg)
-            const url= fileref.getDownloadURL()
+            const url=await fileref.getDownloadURL()
             const path= fileref.fullPath
             const headingImage={url,path}
             let mydata={...obj,"Image":headingImage,"Sub_Headings":input}
@@ -124,7 +124,7 @@ async function save(e)
                 if(err) return alert("Somthing went wrong")
                     else return alert("Your Blog has been successfully uploaded")
             })
-            setTimeout(()=> navigate("/Admin"),1500)
+            setTimeout(()=> navigate("/Blogs"),1500)
         }catch(err){
                 alert("Somthing went wrong")
                 console.log(err)

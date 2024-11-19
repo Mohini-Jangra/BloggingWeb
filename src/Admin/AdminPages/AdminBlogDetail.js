@@ -23,7 +23,7 @@ return (
     <div>
         <AdminHeader/>
         <Suspense fallback={<div className='preloaders'><div className='loaders'></div></div>}>
-        <AdminBlogDetailComp/>
+        <AdminBlogDetailComp data={data}/>
         </Suspense>
         <AdminFooter/>
     </div>

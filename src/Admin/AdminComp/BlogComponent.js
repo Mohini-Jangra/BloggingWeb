@@ -14,17 +14,15 @@ navigate("/AdminBlogDetail")
       <div className="row gx-55 gx-5">
         <div className="col-lg-8">
           <div className="row justify-content-center">
-            {
+           { 
              props.data && Object.keys(props.data).map(function(key,index){
-            
               if(props?.data[key]?.Date) {
                 const date= new Date(props?.data[key]?.Date)
               return(
-              
               <div className="col-xl-6 col-lg-6 col-md-6">
                 <div className="news-card-thirteen">
                   <div className="news-card-img">
-                    <img onClick={()=>open(key)} loading='lazy' src={props?.data[key]?.HeadingImage?.url} alt="Iamge" />
+                    <img onClick={()=>open(key)} loading='lazy' src={props?.data[key]?.Image?.url} style={{"height":"100%","width":"100%"}} alt="Iamge" />
                     <a onClick={()=>open(key)} className="news-cat">{props?.data[key]?.Category}</a>
                   </div>
                   <div className="news-card-info">
@@ -34,34 +32,33 @@ navigate("/AdminBlogDetail")
                       <li><i className="fi fi-rr-user" />By:-{props?.data[key]?.Author}</li>
                     </ul>
                   </div>
-                 
-              )          
-              }
-              else{
-return(
-              
-              <div className="col-xl-6 col-lg-6 col-md-6">
-                <div className="news-card-thirteen">
-                  <div className="news-card-img">
-                    <img onClick={()=>open(key)} loading='lazy' src={props?.data[key]?.HeadingImage?.url} alt="Iamge" />
-                    <a onClick={()=>open(key)} className="news-cat">{props?.data[key]?.Category}</a>
-                  </div>
-                  <div className="news-card-info">
-                    <h3><a onClick={()=>open(key)}>{props?.data[key]?.Title}</a></h3>
-                    <ul className="news-metainfo list-style">
-                      <li><i className="fi fi-rr-calendar-minus" /><a onClick={()=>open(key)}>----</a></li>
-                      <li><i className="fi fi-rr-user" />By:-{props?.data[key]?.Author}</li>
-                    </ul>
-                  </div>
-                  </div>
-  )
-                }
-             
-</div>
- </div>
-
-
+                </div>
+              </div>
+             )
+            }
+            else{
+              return( 
             <div className="col-xl-6 col-lg-6 col-md-6">
+            <div className="news-card-thirteen">
+            <div className="news-card-img">
+             <img onClick={()=>open(key)} loading='lazy' src={props?.data[key]?.HeadingImage?.url} alt="Iamge" />
+             <a onClick={()=>open(key)} className="news-cat">{props?.data[key]?.Category}</a>
+            </div>
+            <div className="news-card-info">
+             <h3><a onClick={()=>open(key)}>{props?.data[key]?.Title}</a></h3>
+             <ul className="news-metainfo list-style">
+               <li><i className="fi fi-rr-calendar-minus" /><a onClick={()=>open(key)}>----</a></li>
+               <li><i className="fi fi-rr-user" />By:-{props?.data[key]?.Author}</li>
+             </ul>
+            </div>
+            </div>
+            </div>
+            )
+            }
+
+          })
+        }
+            {/* <div className="col-xl-6 col-lg-6 col-md-6">
               <div className="news-card-thirteen">
                 <div className="news-card-img">
                   <img src="assets/img/news/politics/politics-8.webp" alt="Iamge" />
@@ -260,7 +257,7 @@ return(
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="sidebar-widget">
               <h3 className="sidebar-widget-title">Popular Tags</h3>
               <ul className="tag-list list-style">
