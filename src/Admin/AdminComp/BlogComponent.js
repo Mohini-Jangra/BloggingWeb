@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { json, useNavigate } from 'react-router-dom'
 
 const BlogComponent = (props) => {
   const navigate= useNavigate()
@@ -8,6 +8,24 @@ const BlogComponent = (props) => {
 localStorage.setItem("CurrentBlog",JSON.stringify(key))
 navigate("/AdminBlogDetail")
   }
+function del(key){ 
+  // console.log(key)
+try {
+  setbtndis(true)
+setloader(true)
+const user= JSON.parse(localStorage.getItem("Users"))
+if(!user) return alert("Unauthorized User")
+  if (props.data[key].images){
+for(let i=0;i<props.data[key].images.length,i++){
+
+}
+  }
+} 
+catch (error) {return alert("Something went wrong. Please try again or try after sometime.")
+console.log(error)
+ }
+ finally {setbtndis(false); setloader(false)}
+}
   return (
   <div className="sports-wrap ptb-100">
     <div className="container">
@@ -30,6 +48,7 @@ navigate("/AdminBlogDetail")
                     <ul className="news-metainfo list-style">
                       <li><i className="fi fi-rr-calendar-minus" /><a onClick={()=>open(key)}>{`${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`}</a></li>
                       <li><i className="fi fi-rr-user" />By:-{props?.data[key]?.Author}</li>
+                      <li><button className='btn btn-danger' onClick={()=>del(key)}>Delete</button></li>
                     </ul>
                   </div>
                 </div>
@@ -49,6 +68,7 @@ navigate("/AdminBlogDetail")
              <ul className="news-metainfo list-style">
                <li><i className="fi fi-rr-calendar-minus" /><a onClick={()=>open(key)}>----</a></li>
                <li><i className="fi fi-rr-user" />By:-{props?.data[key]?.Author}</li>
+               <li><button>Delete</button></li>
              </ul>
             </div>
             </div>
