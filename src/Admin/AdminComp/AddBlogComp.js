@@ -112,9 +112,9 @@ async function save(e)
                 let array=[]
                 for (let a= 0; a< image.length; a++) {
                    
-            const filerefs= storage.child(Date.now()+image.name)
-            await filerefs.put(image)
-            const urls= filerefs.getDownloadURL()
+            const filerefs= storage.child(Date.now()+image[a].name)
+            await filerefs.put(image[a])
+            const urls= await filerefs.getDownloadURL()
             const paths= filerefs.fullPath
             array.push({urls,paths})                    
                 }

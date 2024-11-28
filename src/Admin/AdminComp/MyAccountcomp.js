@@ -1,38 +1,102 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { replace, useNavigate } from 'react-router-dom'
+import Firebase, { storage } from '../../Firebase'
 
-const MyAccountcomp = () => {
+const MyAccountcomp = (props) => {
+const [image,setimage]= useState(null)
+const [btndis,setbtndis] = useState(false)
+const navigate= useNavigate()
+const upload=(event)=>{
+  const file= event.target.files[0]
+
+if(!file) return alert("No Iimage is selected")
+    const ext= file.type.split("/")
+if(ext[0]!=="image") return alert("Only Images can be uploaded")
+    if(ext[1]=="png" ||ext[1]=="jpg" ||ext[1]=="jpeg" ||ext[1]=="PNG" ||ext[1]=="jfif") 
+        {
+            return setimage(file)
+        }
+        return alert("Only png,jpg,jpeg & jfif file types are supported")
+}
+const submit= async(e)=>{
+  try{
+e.preventDefault()
+setbtndis(true)
+if(!image) return alert("Uplaod Profile Image first.")
+  const user= JSON.parse(localStorage.getItem("Users"))
+if(!user)
+   { alert("Unauthorized user")
+  window.history.replaceState(null, null, "/Login")
+return navigate("/",{replace:true})}
+  
+const fileref= storage.child(Date.now()+image.name)
+await fileref.put(image)
+const url=await fileref.getDownloadURL()
+const path= fileref.fullPath
+const object={url,path} 
+  
+Firebase.child("Users").child(user).update({ProfileImage:object})
+alert("User Updated successfully")
+}
+
+  catch(error){
+console.log(error)
+alert("Something Went wrong")
+  }
+  finally{
+setbtndis(false)
+setimage({})
+  }
+}
   return (
     <div>
       <div className="author-wrap">
     <div className="container">
-      <div className="author-box">
+     {
+      props.user.ProfileImage? <div className="author-box">
+      <div className="author-img">
+      <img alt="Image" src="assets/img/author/single-author.jpg" style={{display: 'none', visibility: 'hidden'}} />
+      </div>
+      <div className="author-info">
+        <h4>Scarlett Emily</h4>
+        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered
+          alteration in some form, by injected humour, or ran domised words which don't look even slightly
+          believable.</p>
+        <div className="author-profile">
+          <ul className="social-profile list-style">
+            <li><a href="https://www.fb.com/" target="_blank"><i className="ri-facebook-fill" /></a></li>
+            <li><a href="https://www.twitter.com/" target="_blank"><i className="ri-twitter-fill" /></a>
+            </li>
+            <li><a href="https://www.instagram.com/" target="_blank"><i className="ri-instagram-line" /></a></li>
+            <li><a href="https://www.linkedin.com/" target="_blank"><i className="ri-linkedin-fill" /></a>
+            </li>
+          </ul>
+    
+        </div>
+      </div>
+    </div>: <div className="author-box">
         <div className="author-img">
-          <img alt="Image" data-cfsrc="assets/img/author/single-author.jpg" style={{display: 'none', visibility: 'hidden'}} /><noscript>&lt;img src="assets/img/author/single-author.jpg"
-            alt="Image"&gt;</noscript>
-        </div>
-        <div className="author-info">
-          <h4>Scarlett Emily</h4>
-          <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-            alteration in some form, by injected humour, or ran domised words which don't look even slightly
-            believable.</p>
-          <div className="author-profile">
-            <ul className="social-profile list-style">
-              <li><a href="https://www.fb.com/" target="_blank"><i className="ri-facebook-fill" /></a></li>
-              <li><a href="https://www.twitter.com/" target="_blank"><i className="ri-twitter-fill" /></a>
-              </li>
-              <li><a href="https://www.instagram.com/" target="_blank"><i className="ri-instagram-line" /></a></li>
-              <li><a href="https://www.linkedin.com/" target="_blank"><i className="ri-linkedin-fill" /></a>
-              </li>
-            </ul>
-            <div className="author-stat">
-              <span>40 Articles</span>
-              <span>191 Comments</span>
+        <div className="sidebar">
+                                <div className="checkout-box">
+                                    <h4 className="cart-box-title">Profile Image</h4>
+                                    <div className="cart-total">
+                                        <div className="cart-total-wrap">
+                                            <div className="cart-total-item">
+                                               <img className='img-thumbnail' height={"300px"} width={"300px"} src={image?URL.createObjectURL(image):'assets/img/newsletter-bg.webp'}/>
+                                            </div>
+                                        </div>
+                                        <input type='file' hidden onChange={upload} accept='image/*'/>
+                                        <a >Upload Profile Image<i className="flaticon-right-arrow" /></a>
+                                        <button>submit</button>
+                                      </div>
+
+           </div>
             </div>
-          </div>
-        </div>
-      </div>
+            </div>
+
+
     </div>
-      </div>
+      }      </div>
       <div className="popular-news-three ptb-100">
     <div className="container">
       <div className="row gx-5">
@@ -258,6 +322,7 @@ const MyAccountcomp = () => {
       </div>
     </div>
       </div>
+    </div>
     </div>
   )
 }
